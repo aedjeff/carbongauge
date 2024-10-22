@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .navybar {
+            background-color: coral;
+            overflow: hidden;
+        }
+        .navybar a {
+            float: left;
+            display: block;
+            text-align: center;
+            color: black;
+            text-decoration: none;
+            font-weight: 400;
+            padding: 20px;
+        }
+        .navybar a:hover {
+            background-color: brown;
+            color: white;
+        }
+        .navybar .icon {
+            display: none;
+        }
+        @media screen and (max-width: 700px) {
+            .navybar a {
+                display: none;
+            }
+            .navybar a.icon {
+                float: left;
+                display: block;
+                color: brown;
+            }
+            .navybar a.icon:hover {
+                color: white;
+            }
+            .navybar.responsive {
+                position: relative;
+            }
+            .navybar.responsive a.icon {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .navybar.responsive a {
+                float: none;
+                display: block;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="nammaBar" class="navybar">
+        <a href="" class="active">Home</a>
+        <a href="">About</a>
+        <a href="">Products</a>
+        <a href="">Contact</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+      <script>
+        function myFunction() {
+            var bar = document.getElementById("nammaBar");
+            if (bar.className === "navybar") {
+                bar.className += " responsive";
+            } else {
+                bar.className = "navybar";
+            }
+        }
+      </script>
+</body>
+</html>

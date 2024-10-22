@@ -1,0 +1,8 @@
+How Flexbox Works?
+
+Flexbox is a layout mode in CSS that is used to arrange a set of block items in
+a flexible structure.
+Flexbox can be used to direct its items either along the row or along the column
+It is primarily used to distribute the available space to the items contained 
+thus forming the backbone of responsive UI design in CSS
+

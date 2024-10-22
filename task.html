@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <style>
+        #profileCard {
+            padding: 24px;
+            width:fit-content;
+            border-radius: 10px;
+            border: 0.5px solid black ;
+            box-shadow: 10px 10px grey;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <p><label for="name">Name:</label>
+        <input type="text" id="name" required></p>
+        
+        <p><label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="Male" required>
+        <label for="male">Male</label>
+        
+        <input type="radio" id="female" name="gender" value="Female">
+        <label for="female">Female</label>
+        
+        <input type="radio" id="other" name="gender" value="Other">
+        <label for="other">Other</label></p>
+        
+        <p><label for="education">Education:</label>
+        <input type="text" id="education" required></p>
+    
+        <p><label for="tasks">Tasks:</label>
+        <input type="text" id="tasks" placeholder="Separate tasks with commas" required></p>
+    
+        <p><label for="groceries">Grocery Items:</label>
+        <input type="text" id="groceries" placeholder="Separate items with commas" required></p>
+    
+        <button onclick="addMem()" id="addMember">Add Member</button>
+        
+        <h3>Family Members</h3>
+        <ul id="relativesList"></ul>
+
+        <div id="profileCard">
+            <h2 id="profileName"></h2>
+            <p>Gender: <span id="profileGender"></span></p>
+            <p>Education: <span id="profileEducation"></span></p>
+            <div><p>Tasks:<p><ul id="profileTasks"></ul></div>
+            <div><p>Grocery Items: </p><ul id="profileGroceries"></ul></div>
+    
+            <button id="deleteMember">Delete Member</button>
+            <button id="editMember">Edit Member</button>
+        </div>
+    </form>
+    
+    <script>
+        let relativeNum = null;
+        let relatives = [];
+
+        function addMem() {
+            const name = document.getElementById('name').value;
+            let gender;
+            var ele = document.getElementsByName('gender');
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked)
+                    gender = ele[i].value;
+            }
+            const education = document.getElementById('education').value;
+            const tasks = document.getElementById('tasks').value.split(',');
+            const groceries = document.getElementById('groceries').value.split(',');
+
+            if (!name) {
+                alert("Please enter the member's name.");
+                return;
+            }
+    
+            if (!gender) {
+                alert("Please select a gender.");
+                return;
+            }
+    
+            if (!education) {
+                alert("Please enter the member's education.");
+                return;
+            }
+
+            const relative = { name, gender, education, tasks, groceries };
+            if(relativeNum == null) {
+                relatives.push(relative);
+            } else {
+                relatives[relativeNum] = relative;
+                relativeNum = null;
+                document.getElementById('addMember').textContent = 'Add Member';
+            }
+            document.getElementById('form').reset();
+            reloadList();
+        }
+        function reloadList() {
+            relativesList = document.getElementById('relativesList');
+            relativesList.innerHTML = '';
+            relatives.forEach((relative, index) => {
+                const list = document.createElement('li');
+                list.textContent = relative.name;
+                list.style.textDecoration = 'underline';
+                list.style.color = 'blue';
+                list.addEventListener('click', () => showProfile(index));
+                relativesList.appendChild(list);
+            });
+        }
+        function showProfile(index) {
+            const relative = relatives[index];
+            document.getElementById('profileName').textContent = relative.name;
+            document.getElementById('profileGender').textContent = relative.gender;
+            document.getElementById('profileEducation').textContent = relative.education;
+            document.getElementById('profileTasks').innerHTML = '';
+            document.getElementById('profileGroceries').innerHTML = '';
+            relative.tasks.forEach((task, index) => {
+                const list = document.createElement('li');
+                list.textContent = task;
+                document.getElementById('profileTasks').appendChild(list);
+            });
+            relative.groceries.forEach((item, index) => {
+                const list = document.createElement('li');
+                list.textContent = item;
+                document.getElementById('profileGroceries').appendChild(list);
+            });
+            profileCard.style.display = 'block';
+
+            document.getElementById('deleteMember').onclick = () => {
+                relatives.splice(index, 1);
+                profileCard.style.display = 'none';
+                reloadList();
+            };
+
+            document.getElementById('editMember').addEventListener('click', (event) => {
+                event.preventDefault();
+                document.getElementById('name').value = relative.name;
+                document.getElementById(relative.gender.toLowerCase()).checked = true;
+                document.getElementById('education').value = relative.education;
+                document.getElementById('tasks').value = relative.tasks.join(', ');
+                document.getElementById('groceries').value = relative.groceries.join(', ');
+                relativeNum = index;
+                document.getElementById('addMember').textContent = 'Update Member';
+                profileCard.style.display = 'none';
+            });
+        }
+     </script>
+</body>
+</html>
